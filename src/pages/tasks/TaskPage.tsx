@@ -81,6 +81,7 @@ export default function TaskPage() {
       await TaskService.deleteTask(taskId);
       ToasUtils.showSuccessToast(`Successfully deleted`);
       loadTasks(pagination.page);
+      getTaskStats()
       setShowDeleteModal(() => false);
     } catch (err) {
       ToasUtils.showErrorToast("Error", err);
@@ -96,6 +97,7 @@ export default function TaskPage() {
         `Successfully ${values.id ? "updated" : "created"} task`
       );
       loadTasks(pagination.page);
+      getTaskStats()
       setShowModal(() => false);
     } catch (err) {
       ToasUtils.showErrorToast("Error", err);

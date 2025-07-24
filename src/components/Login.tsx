@@ -85,16 +85,18 @@ const Login = () => {
             <LoadingButton type="submit" isLoading={isLoading}>
               Sign In
             </LoadingButton>
-            <button
-              type="button"
-              className="w-full bg-blue-500 text-white py-3 px-4 rounded-xl hover:bg-orange-700 focus:ring-4 focus:ring-orange-200 transition-all duration-200 font-medium"
-              onClick={() => {
-                setFieldValue("email", "demo@blys.com");
-                setFieldValue("password", "password");
-              }}
-            >
-              Auto fill Demo A/c
-            </button>
+            {import.meta.env.MODE === "development" && (
+              <button
+                type="button"
+                className="w-full bg-blue-500 text-white py-3 px-4 rounded-xl hover:bg-orange-700 focus:ring-4 focus:ring-orange-200 transition-all duration-200 font-medium"
+                onClick={() => {
+                  setFieldValue("email", "demo@blys.com");
+                  setFieldValue("password", "password");
+                }}
+              >
+                Auto fill Demo A/c
+              </button>
+            )}
           </Form>
         )}
       </Formik>
