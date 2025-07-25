@@ -46,6 +46,8 @@ const TaskCard = ({
     return end.setHours(0, 0, 0, 0) < now.setHours(0, 0, 0, 0);
   };
 
+  const isTaskCompleted = task.status === TaskStatus.COMPLETED;
+
   return (
     <div className="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-lg transition-all duration-200 group">
       <div className="flex justify-between items-start mb-4">
@@ -59,11 +61,18 @@ const TaskCard = ({
         </div>
         <div className="flex space-x-1 ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <button
-            title="Update status"
+            aria-disabled={task.status === TaskStatus.COMPLETED}
             onClick={() => {
-              openUpdateStatusModal(task);
-            }} // Replace with your handler
-            className="p-2 text-slate-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-200"
+              if (!isTaskCompleted) openUpdateStatusModal(task);
+            }}
+            className={`p-2 rounded-lg transition-all duration-200
+    ${
+      isTaskCompleted
+        ? "text-slate-400 cursor-not-allowed" // disabled styles
+        : "text-slate-400 hover:text-green-600 hover:bg-green-50 cursor-pointer"
+    }
+  `}
+            title="Update status"
           >
             <svg
               className="w-4 h-4"

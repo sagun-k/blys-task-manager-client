@@ -71,11 +71,19 @@ const TaskTableView = ({
               </td>
               <td className="px-4 py-3 space-x-2">
                 <button
-                  title="Update status"
+                  aria-disabled={task.status === TaskStatus.COMPLETED}
                   onClick={() => {
-                    openUpdateStatusModal(task);
-                  }} // Replace with your handler
-                  className="p-2 text-slate-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-200"
+                    if (task.status !== TaskStatus.COMPLETED)
+                      openUpdateStatusModal(task);
+                  }}
+                  className={`p-2 rounded-lg transition-all duration-200
+                ${
+                  task.status === TaskStatus.COMPLETED
+                    ? "text-slate-400 cursor-not-allowed" // disabled styles
+                    : "text-slate-400 hover:text-green-600 hover:bg-green-50 cursor-pointer"
+                  }
+                `}
+                  title="Update status"
                 >
                   <svg
                     className="w-4 h-4"
