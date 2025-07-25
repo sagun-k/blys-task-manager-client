@@ -16,10 +16,21 @@ cd blys-task-manager-server
 2. **Install dependencies:**
    pnpm install
 
-3. **Start development server:**
+3. **Api generation**
+pnpm run generate:api 
+
+This will genrate the api services inside src/generated-api from the deployed backend
+    "generate:api": "openapi --input https://blys-task-manager-server.onrender.com/api-docs.json --output ./src/generated-api --client axios"
+
+If you are using the local backend server just update     
+
+  "generate:api": "openapi --input https://localhost:<PORT>/api-docs.json --output ./src/generated-api --client axios"
+
+
+4. **Start development server:**
    pnpm run dev
 
-4. **Build for production:**
+5. **Build for production:**
    pnpm run build
 
 ## Tech Stack
