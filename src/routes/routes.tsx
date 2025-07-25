@@ -19,12 +19,9 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
         children: [
+          
           {
-            index: true,
-            element: <>Dashboard</>,
-          },
-          {
-            path: "/tasks",
+            index:true,
             element: <TaskPage />,
           },
         ],

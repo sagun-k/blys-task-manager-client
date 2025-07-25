@@ -6,6 +6,7 @@ import type { CreateTaskRequest } from '../models/CreateTaskRequest';
 import type { Task } from '../models/Task';
 import type { TaskStats } from '../models/TaskStats';
 import type { UpdateTaskRequest } from '../models/UpdateTaskRequest';
+import type { UpdateTaskStatusRequest } from '../models/UpdateTaskStatusRequest';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -116,6 +117,27 @@ export class TasksService {
             errors: {
                 401: `Unauthorized - invalid or missing token`,
             },
+        });
+    }
+    /**
+     * Update task status
+     * @param id Task ID
+     * @param requestBody
+     * @returns any Task status updated successfully
+     * @throws ApiError
+     */
+    public static updateTaskStatus(
+        id: string,
+        requestBody: UpdateTaskStatusRequest,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/v1/tasks/{id}/status',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 }

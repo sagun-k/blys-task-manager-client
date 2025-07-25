@@ -8,6 +8,7 @@ import {
 import type { UserDto } from "../api/dtos/UserDto";
 import { AuthenticationServices } from "../api/services/AuthenticationService";
 import { ToasUtils } from "../utils/ToastUtils";
+import LoadingScreen from "../components/LoadingScreen";
 
 export interface User {
   id: string;
@@ -70,7 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     checkAuth();
   }, []);
 
-  if (loading) return <>Loading...</>;
+  if (loading) return <LoadingScreen />;
 
   return (
     <AuthContext.Provider value={{ user, login, register, logout }}>

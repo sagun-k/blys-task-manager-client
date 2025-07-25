@@ -2,11 +2,9 @@ import type { TaskStats } from "../../api/models/TaskStats";
 
 type TaskStatsCardsProps = {
   stats?: TaskStats;
-  loading:boolean;
 };
 
-const TaskStatsCards = ({ stats, loading }: TaskStatsCardsProps) => {
-  if(loading) return <>Loading....</>
+const TaskStatsCards = ({ stats }: TaskStatsCardsProps) => {
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -41,7 +39,7 @@ const TaskStatsCards = ({ stats, loading }: TaskStatsCardsProps) => {
             <div>
               <p className="text-slate-500 text-sm font-medium">Completed</p>
               <p className="text-2xl font-bold text-green-600 mt-1">
-                {stats?.completed}
+                {stats?.status?.completed}
               </p>
             </div>
             <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
@@ -67,7 +65,7 @@ const TaskStatsCards = ({ stats, loading }: TaskStatsCardsProps) => {
             <div>
               <p className="text-slate-500 text-sm font-medium">In Progress</p>
               <p className="text-2xl font-bold text-blue-600 mt-1">
-                {stats?.inProgress}
+                {stats?.status?.inProgress}
               </p>
             </div>
             <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
@@ -93,7 +91,7 @@ const TaskStatsCards = ({ stats, loading }: TaskStatsCardsProps) => {
             <div>
               <p className="text-slate-500 text-sm font-medium">Pending</p>
               <p className="text-2xl font-bold text-slate-600 mt-1">
-                {stats?.pending}
+                {stats?.status?.pending}
               </p>
             </div>
             <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center">
