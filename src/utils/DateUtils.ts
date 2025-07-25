@@ -12,12 +12,22 @@ export class DateUtils {
 
   // utils/formatDateTime.ts
 
-  public static formatDateTime(input: string | Date): string {
-    const date = new Date(input);
-
-    return new Intl.DateTimeFormat("en-US", {
-      dateStyle: "medium", // e.g., Jan 3, 2025
-      timeStyle: "short", // e.g., 3:45 PM
-    }).format(date);
+  public static formatDateTime(
+    input: string | Date,
+    showTime: boolean = false
+  ): string {
+    if (typeof input === "string") {
+      input = new Date(input);
+    }
+    if (showTime) {
+      return new Intl.DateTimeFormat("en-US", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      }).format(input);
+    } else {
+      return new Intl.DateTimeFormat("en-US", {
+        dateStyle: "medium",
+      }).format(input);
+    }
   }
 }

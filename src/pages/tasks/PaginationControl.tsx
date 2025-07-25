@@ -1,15 +1,19 @@
+import type { Dispatch, SetStateAction } from "react";
 import type { Pagination } from "./AllTasks";
 
 type PaginationControlProps = {
   pagination: Pagination;
   handlePageChange: (page: number) => void;
   loading: boolean;
+  setPagination:Dispatch<SetStateAction<Pagination>>
+  
 };
 
 const PaginationControl = ({
   pagination,
   handlePageChange,
   loading,
+  setPagination
 }: PaginationControlProps) => {
   function getVisiblePages(current: number, total: number): (number | "...")[] {
     const delta = 2;
@@ -34,11 +38,39 @@ const PaginationControl = ({
   return (
     <>
       <div className="flex items-center justify-between mt-8">
-        <div className="text-sm text-slate-600">
-          Showing {(pagination.page - 1) * pagination.limit + 1} to{" "}
-          {Math.min(pagination.page * pagination.limit, pagination.total)} of{" "}
-          {pagination.total} tasks
+        <div className="flex items-center justify-between text-sm text-slate-600">
+          <div>
+            Showing {(pagination.page - 1) * pagination.limit + 1} to{" "}
+            {Math.min(pagination.page * pagination.limit, pagination.total)} of{" "}
+            {pagination.total} tasks
+          </div>
+
+          <div className="flex items-center gap-2">
+            <label htmlFor="limitSelect" className="text-slate-500">
+              Tasks per page:
+            </label>
+            <select
+              id="limitSelect"
+              className="px-2 py-1 border rounded-md text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-500"
+              value={pagination.limit}
+              onChange={(e) => {
+                const newLimit = parseInt(e.target.value);
+                setPagination((prev) => ({
+                  ...prev,
+                  limit: newLimit,
+                  page: 1, // Reset to first page
+                }));
+              }}
+            >
+              {[5, 10, 20, 50].map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
+
         <div className="flex space-x-2">
           <button
             onClick={() => handlePageChange(pagination.page - 1)}

@@ -26,17 +26,9 @@ const ProfileDropdown = () => {
         className="flex items-center space-x-3 p-2 rounded-lg hover:bg-slate-100 transition-colors duration-200"
       >
         <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
-          {user?.avatar ? (
-            <img
-              src={user.avatar || "/placeholder.svg"}
-              alt={user.name}
-              className="w-8 h-8 rounded-full object-cover"
-            />
-          ) : (
             <span className="text-sm font-medium text-orange-600">
               {user?.name?.charAt(0).toUpperCase()}
             </span>
-          )}
         </div>
         <div className="hidden md:block text-left">
           <p className="text-sm font-medium text-slate-900">{user?.name}</p>

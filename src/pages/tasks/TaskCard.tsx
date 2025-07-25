@@ -7,9 +7,15 @@ type TaskCardProps = {
   task: Task;
   onEdit: (task: Task) => void;
   openDeleteTaskModal: (task: Task) => void;
+  openUpdateStatusModal: (task: Task) => void;
 };
 
-const TaskCard = ({ task, onEdit, openDeleteTaskModal }: TaskCardProps) => {
+const TaskCard = ({
+  task,
+  onEdit,
+  openDeleteTaskModal,
+  openUpdateStatusModal,
+}: TaskCardProps) => {
   const getPriorityColor = (priority: Priority) => {
     switch (priority) {
       case Priority.HIGH:
@@ -32,6 +38,16 @@ const TaskCard = ({ task, onEdit, openDeleteTaskModal }: TaskCardProps) => {
     }
   };
 
+  const isOverdue = () => {
+    if (!task.endDate) return false;
+    const now = new Date();
+    const end = new Date(task.endDate);
+    // Compare dates only (ignore time)
+    return end.setHours(0, 0, 0, 0) < now.setHours(0, 0, 0, 0);
+  };
+
+  const isTaskCompleted = task.status === TaskStatus.COMPLETED;
+
   return (
     <div className="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-lg transition-all duration-200 group">
       <div className="flex justify-between items-start mb-4">
@@ -45,6 +61,34 @@ const TaskCard = ({ task, onEdit, openDeleteTaskModal }: TaskCardProps) => {
         </div>
         <div className="flex space-x-1 ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <button
+            aria-disabled={task.status === TaskStatus.COMPLETED}
+            onClick={() => {
+              if (!isTaskCompleted) openUpdateStatusModal(task);
+            }}
+            className={`p-2 rounded-lg transition-all duration-200
+    ${
+      isTaskCompleted
+        ? "text-slate-400 cursor-not-allowed" // disabled styles
+        : "text-slate-400 hover:text-green-600 hover:bg-green-50 cursor-pointer"
+    }
+  `}
+            title="Update status"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M9 12l2 2 4-4M7 21h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </button>
+
+          <button
+            title="Edit task"
             onClick={() => onEdit(task)}
             className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
           >
@@ -63,6 +107,7 @@ const TaskCard = ({ task, onEdit, openDeleteTaskModal }: TaskCardProps) => {
             </svg>
           </button>
           <button
+            title="Delete task"
             onClick={() => openDeleteTaskModal(task)}
             className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200"
           >
@@ -100,8 +145,33 @@ const TaskCard = ({ task, onEdit, openDeleteTaskModal }: TaskCardProps) => {
             {task.priority}
           </span>
         </div>
-        <div className="text-xs text-slate-500">
-          {DateUtils.formatDateTime(task.createdAt!)}
+        <div
+          className={`text-xs ${
+            isOverdue()
+              ? "text-red-600 font-semibold flex items-center space-x-1"
+              : "text-slate-500"
+          }`}
+        >
+          <div className="flex">
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>Deadline:</span>
+            <span>{DateUtils.formatDateTime(task.endDate!)}</span>
+            {isOverdue() && (
+              <span className="ml-2 font-bold uppercase text-sm">Overdue</span>
+            )}
+          </div>
         </div>
       </div>
     </div>

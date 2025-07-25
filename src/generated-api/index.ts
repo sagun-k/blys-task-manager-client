@@ -15,6 +15,7 @@ export type { PaginationResponse_Task_ } from './models/PaginationResponse_Task_
 export { Task } from './models/Task';
 export type { TaskStats } from './models/TaskStats';
 export { UpdateTaskRequest } from './models/UpdateTaskRequest';
+export { UpdateTaskStatusRequest } from './models/UpdateTaskStatusRequest';
 export type { User } from './models/User';
 export type { ValidationError } from './models/ValidationError';
 

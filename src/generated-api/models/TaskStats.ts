@@ -4,8 +4,15 @@
 /* eslint-disable */
 export type TaskStats = {
     total?: number;
-    pending?: number;
-    inProgress?: number;
-    completed?: number;
+    status?: {
+        pending?: number;
+        inProgress?: number;
+        completed?: number;
+    };
+    priority?: {
+        low?: number;
+        medium?: number;
+        high?: number;
+    };
 };
 

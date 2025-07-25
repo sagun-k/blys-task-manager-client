@@ -1,4 +1,9 @@
-import { TasksService, UpdateTaskRequest } from "../../generated-api";
+import type { TaskStatus } from "../../enums/TaskStatus";
+import {
+  TasksService,
+  UpdateTaskRequest,
+  UpdateTaskStatusRequest,
+} from "../../generated-api";
 import type { PaginatedResponse } from "../../types";
 import type { CreateOrUpdateTaskModel } from "../models/CreateOrUpdateTaskModel";
 import type { Task } from "../models/Task";
@@ -42,7 +47,6 @@ export class TaskService {
         return await this.createTask(request);
       }
     } catch (err) {
-      console.log(err)
       throwAsServiceError(err);
     }
   }
@@ -69,11 +73,24 @@ export class TaskService {
     }
   }
 
-    public static async getTaskStats(
-  ): Promise<TaskStats | undefined> {
+  public static async getTaskStats(): Promise<TaskStats | undefined> {
     try {
       const tasks = await TasksService.getTaskStats();
-      return tasks
+      return tasks;
+    } catch (err) {
+      throwAsServiceError(err);
+    }
+  }
+
+  public static async updateStatus(
+    taskId: string,
+    status: TaskStatus
+  ): Promise<TaskStats | undefined> {
+    try {
+      const tasks = await TasksService.updateTaskStatus(taskId, {
+        status: status as any,
+      } as UpdateTaskStatusRequest);
+      return tasks;
     } catch (err) {
       throwAsServiceError(err);
     }
